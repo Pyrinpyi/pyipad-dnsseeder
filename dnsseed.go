@@ -93,8 +93,14 @@ func creep() {
 	for {
 		peers := amgr.Addresses()
 		if len(peers) == 0 && amgr.AddressCount() == 0 {
+			customSeed := ""
+
+			if ActiveConfig().NetParams().Name == "pyrin-testnet-10" {
+				customSeed = "seeder01-testnet.pyrin.network"
+			}
+
 			// Add peers discovered through DNS to the address manager.
-			dnsseed.SeedFromDNS(ActiveConfig().NetParams(), "", true,
+			dnsseed.SeedFromDNS(ActiveConfig().NetParams(), customSeed, true,
 				nil, hostLookup, func(addrs []*appmessage.NetAddress) {
 					amgr.AddAddresses(addrs)
 				})
